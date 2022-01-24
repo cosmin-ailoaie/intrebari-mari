@@ -1,0 +1,20 @@
+<div class="container my-5">
+  <div class="upload" *ngIf="!(intrebari?.length > 0)">
+    <h1>Intrebari mixer:</h1>
+    <app-upload (testIt)="processedFile($event)"></app-upload>
+  </div>
+  <div class="intrebari" *ngIf="!finish && intrebari?.length > 0">
+    <p>
+      <span>Progress: {{ index }} out of {{ intrebari.length }}</span>
+      <ngb-progressbar
+        type="success"
+        textType="blue"
+        [value]="progress"
+        [showValue]="true"
+      ></ngb-progressbar>
+    </p>
+    <app-intrebare [intrebare]="intrebari[index - 1]" (nextQ)="next()">
+    </app-intrebare>
+  </div>
+  <app-rezultate *ngIf="finish"></app-rezultate>
+</div>

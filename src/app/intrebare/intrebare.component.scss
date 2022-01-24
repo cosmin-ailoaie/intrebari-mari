@@ -1,0 +1,7 @@
+.btn:disabled {
+  background-color: gray;
+  cursor: not-allowed;
+}
+.selected {
+  border: 1px solid green;
+}

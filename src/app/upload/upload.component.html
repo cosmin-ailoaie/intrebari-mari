@@ -1,0 +1,27 @@
+<div class="upload-container m-5">
+  <div class="div" *ngIf="!uploaded">
+    <div class="input-group">
+      <div class="input-group-prepend">
+        <div class="input-group-text">
+          <input
+            type="file"
+            id="file"
+            (change)="handleFileInput($event)"
+            accept=".txt"
+            multiple="false"
+          />
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="" *ngIf="uploaded && error">Error processing file!</div>
+  <div *ngIf="done">
+    <p>A total of {{ nrOfQ }} questions:</p>
+    <ul class="list-group my-2">
+      <li class="list-group-item" *ngFor="let i of processedFile">
+        {{ i.q }}
+      </li>
+    </ul>
+    <button class="btn btn-primary" (click)="test()">Test it!</button>
+  </div>
+</div>
