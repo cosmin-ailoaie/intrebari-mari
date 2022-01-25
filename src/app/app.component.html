@@ -13,8 +13,8 @@
         [showValue]="true"
       ></ngb-progressbar>
     </p>
-    <app-intrebare [intrebare]="intrebari[index - 1]" (nextQ)="next()">
+    <app-intrebare [intrebare]="intrebari[index - 1]" (nextQ)="next($event)">
     </app-intrebare>
   </div>
-  <app-rezultate *ngIf="finish"></app-rezultate>
+  <app-rezultate *ngIf="finish" [raspunsuri]="raspunsuri"></app-rezultate>
 </div>

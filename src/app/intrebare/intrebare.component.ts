@@ -14,36 +14,45 @@ import {
 })
 export class IntrebareComponent implements OnChanges {
   @Input() intrebare: any;
+  @Input() output: boolean = false;
   @Output() nextQ = new EventEmitter();
-  checked: Set<string> = new Set();
+
+  check:boolean = false;
   processed: any = {
     title: '',
     rasp: [],
   };
-  check:boolean = false;
+  checked: Set<string> = new Set();
+
   constructor() {}
 
   ngOnChanges(): void {
     if (this.intrebare) {
+      // this.checked.clear();
       this.processed['title'] = this.intrebare.q;
-      this.processed['rasp'] = this.shuffle([
-        ...this.intrebare.corecte,
-        ...this.intrebare.gresite,
-      ]);
-      this.checked
+      if(this.output){
+        this.check = true;
+        this.checked = new Set(this.intrebare.raspunsuri)
+        this.processed['rasp'] = [
+          ...this.intrebare.corecte,
+          ...this.intrebare.gresite,
+        ];
+      }else{
+        this.processed['rasp'] = this.shuffle([
+          ...this.intrebare.corecte,
+          ...this.intrebare.gresite,
+        ]);
+      }
     }
   }
+
   shuffle(array: any) {
     let currentIndex = array.length,
       randomIndex;
 
-    // While there remain elements to shuffle...
     while (currentIndex != 0) {
-      // Pick a remaining element...
       randomIndex = Math.floor(Math.random() * currentIndex);
       currentIndex--;
-
-      // And swap it with the current element.
       [array[currentIndex], array[randomIndex]] = [
         array[randomIndex],
         array[currentIndex],
@@ -52,9 +61,9 @@ export class IntrebareComponent implements OnChanges {
 
     return array;
   }
+
   clicked(value: string) {
     if(!this.check){
-
       if (this.checked.has(value)) {
         this.checked.delete(value);
       } else {
@@ -62,8 +71,9 @@ export class IntrebareComponent implements OnChanges {
       }
     }
   }
+
   next() {
     this.check = false;
-    this.nextQ.emit();
+    this.nextQ.emit({...this.intrebare,raspunsuri:this.checked});
   }
 }

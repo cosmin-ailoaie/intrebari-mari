@@ -13,17 +13,19 @@ export class AppComponent {
   index: number = 1;
   intrebari: any;
   maxPointsByQ: number = 0;
+  raspunsuri: Set<any> = new Set();
   processedFile(listOfQ: any) {
     // console.log($file);
     this.intrebari = listOfQ;
   }
 
-  next() {
+  next(rasp:any) {
+    this.raspunsuri.add(rasp);
     if (this.index === this.intrebari.length) {
       this.finish = true;
+      this.raspunsuri = new Set(Array.from(this.raspunsuri).sort((a,b) => a.id - b.id));
     }
     this.progress = (this.maxPoints / this.intrebari.length) * this.index;
     this.index = this.index + 1;
-    // console.log(this.intrebari[this.index]);
   }
 }

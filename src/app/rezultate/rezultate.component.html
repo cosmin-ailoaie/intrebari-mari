@@ -1,1 +1,31 @@
-<p>rezultate works!</p>
+<div class="d-flex justify-content-around">
+    <p>
+        <button type="button" class="btn btn-outline-primary" (click)="collapseR.toggle();collapseG.toggle()"
+            [attr.aria-expanded]="!isCollapsedR" aria-controls="collapseExample">
+            Answers
+        </button>
+    </p>
+    <p>
+        <button type="button" class="btn btn-outline-primary" (click)="collapseG.toggle();collapseR.toggle()"
+            [attr.aria-expanded]="!isCollapsedG" aria-controls="collapseExample">
+            Graph
+        </button>
+    </p>
+</div>
+<div #collapseR="ngbCollapse" [(ngbCollapse)]="isCollapsedR">
+    <div class="card">
+        <div class="card-body">
+            <app-intrebare *ngFor="let intrebare of raspunsuri" [intrebare]="intrebare" [output]="true">
+            </app-intrebare>
+        </div>
+    </div>
+</div>
+
+
+<div #collapseG="ngbCollapse" [(ngbCollapse)]="isCollapsedG">
+    <div class="card">
+        <div class="card-body">
+            <img src="https://media.istockphoto.com/photos/red-arrow-moving-up-over-graph-paper-background-picture-id1157569047?k=20&m=1157569047&s=612x612&w=0&h=Eo-XbKqP5g79EXC4cnU4WNbAoL090rdVZOJOzjFff7s=" alt="">
+        </div>
+    </div>
+</div>
