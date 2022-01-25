@@ -28,7 +28,7 @@ export class IntrebareComponent implements OnChanges {
 
   ngOnChanges(): void {
     if (this.intrebare) {
-      // this.checked.clear();
+      this.checked.clear();
       this.processed['title'] = this.intrebare.q;
       if(this.output){
         this.check = true;

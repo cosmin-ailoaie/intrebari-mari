@@ -1,5 +1,18 @@
 <div class="upload-container m-5">
-  <div class="div" *ngIf="!uploaded">
+  <div class="card" *ngIf="hasLocalStorage">
+    <div class="card-body">
+      <h5 class="card-title d-flex justify-content-between">
+        <p>
+
+          History
+        </p>
+        <button class="btn btn-danger" (click)="clearHistory()">Clear</button>
+        </h5>
+      <ul class="lista">
+        <li *ngFor="let local of locals" (click)="handleHistoryInput(local.file)" > <strong>{{local?.name}}</strong> - <i>{{local?.nrOfQ}} Questions</i> - {{(local?.size/1024)|number: '1.0-2' }} KB</li>
+        </ul>
+        </div></div>
+  <div class="div mt-2" *ngIf="!uploaded">
     <div class="input-group">
       <div class="input-group-prepend">
         <div class="input-group-text">
@@ -25,3 +38,5 @@
     <button class="btn btn-primary" (click)="test()">Test it!</button>
   </div>
 </div>
+
+
