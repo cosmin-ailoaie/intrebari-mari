@@ -20,6 +20,7 @@ export class IntrebareComponent implements OnChanges {
     title: '',
     rasp: [],
   };
+  check:boolean = false;
   constructor() {}
 
   ngOnChanges(): void {
@@ -28,8 +29,8 @@ export class IntrebareComponent implements OnChanges {
       this.processed['rasp'] = this.shuffle([
         ...this.intrebare.corecte,
         ...this.intrebare.gresite,
-      ]).map((rasp: string) => rasp.substring(1));
-      console.log(this.processed);
+      ]);
+      this.checked
     }
   }
   shuffle(array: any) {
@@ -52,13 +53,17 @@ export class IntrebareComponent implements OnChanges {
     return array;
   }
   clicked(value: string) {
-    if (this.checked.has(value)) {
-      this.checked.delete(value);
-    } else {
-      this.checked.add(value);
+    if(!this.check){
+
+      if (this.checked.has(value)) {
+        this.checked.delete(value);
+      } else {
+        this.checked.add(value);
+      }
     }
   }
   next() {
+    this.check = false;
     this.nextQ.emit();
   }
 }
