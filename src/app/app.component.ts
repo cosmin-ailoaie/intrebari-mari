@@ -28,4 +28,8 @@ export class AppComponent {
     this.progress = (this.maxPoints / this.intrebari.length) * this.index;
     this.index = this.index + 1;
   }
+
+  reset(){
+    window.location.reload();
+  }
 }

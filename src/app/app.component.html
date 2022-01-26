@@ -1,4 +1,7 @@
 <div class="container my-5">
+  <div class="topbar">
+    <button class="btn btn-danger" (click)="reset()">Reset</button>
+  </div>
   <div class="upload" *ngIf="!(intrebari?.length > 0)">
     <h1>Intrebari mixer:</h1>
     <app-upload (testIt)="processedFile($event)"></app-upload>
