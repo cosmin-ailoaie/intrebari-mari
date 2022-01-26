@@ -15,8 +15,8 @@
 <div #collapseR="ngbCollapse" [(ngbCollapse)]="isCollapsedR">
     <div class="card">
         <div class="card-body">
-            <app-intrebare *ngFor="let intrebare of raspunsuri" [intrebare]="intrebare" [output]="true">
-            </app-intrebare>
+            <app-question *ngFor="let question of answers" [question]="question" [output]="true">
+            </app-question>
         </div>
     </div>
 </div>

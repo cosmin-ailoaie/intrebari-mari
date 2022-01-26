@@ -8,12 +8,12 @@ import {
 } from '@angular/core';
 
 @Component({
-  selector: 'app-intrebare',
-  templateUrl: './intrebare.component.html',
-  styleUrls: ['./intrebare.component.scss'],
+  selector: 'app-question',
+  templateUrl: './question.component.html',
+  styleUrls: ['./question.component.scss'],
 })
-export class IntrebareComponent implements OnChanges {
-  @Input() intrebare: any;
+export class QuestionComponent implements OnChanges {
+  @Input() question: any;
   @Input() output: boolean = false;
   @Output() nextQ = new EventEmitter();
 
@@ -27,20 +27,20 @@ export class IntrebareComponent implements OnChanges {
   constructor() {}
 
   ngOnChanges(): void {
-    if (this.intrebare) {
+    if (this.question) {
       this.checked.clear();
-      this.processed['title'] = this.intrebare.q;
+      this.processed['title'] = this.question.q;
       if(this.output){
         this.check = true;
-        this.checked = new Set(this.intrebare.raspunsuri)
-        this.processed['rasp'] = [
-          ...this.intrebare.corecte,
-          ...this.intrebare.gresite,
+        this.checked = new Set(this.question.answers)
+        this.processed['ans'] = [
+          ...this.question.right,
+          ...this.question.wrong,
         ];
       }else{
-        this.processed['rasp'] = this.shuffle([
-          ...this.intrebare.corecte,
-          ...this.intrebare.gresite,
+        this.processed['ans'] = this.shuffle([
+          ...this.question.right,
+          ...this.question.wrong,
         ]);
       }
     }
@@ -74,6 +74,6 @@ export class IntrebareComponent implements OnChanges {
 
   next() {
     this.check = false;
-    this.nextQ.emit({...this.intrebare,raspunsuri:this.checked});
+    this.nextQ.emit({...this.question,answers:this.checked});
   }
 }

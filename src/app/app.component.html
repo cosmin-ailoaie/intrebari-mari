@@ -2,13 +2,13 @@
   <div class="topbar">
     <button class="btn btn-danger" (click)="reset()">Reset</button>
   </div>
-  <div class="upload" *ngIf="!(intrebari?.length > 0)">
-    <h1>Intrebari mixer:</h1>
+  <div class="upload" *ngIf="!(questions?.length > 0)">
+    <h1>Questions mixer:</h1>
     <app-upload (testIt)="processedFile($event)"></app-upload>
   </div>
-  <div class="intrebari" *ngIf="!finish && intrebari?.length > 0">
+  <div class="questions" *ngIf="!finish && questions?.length > 0">
     <p>
-      <span>Progress: {{ index }} out of {{ intrebari.length }}</span>
+      <span>Progress: {{ index }} out of {{ questions.length }}</span>
       <ngb-progressbar
         type="success"
         textType="blue"
@@ -16,8 +16,8 @@
         [showValue]="true"
       ></ngb-progressbar>
     </p>
-    <app-intrebare [intrebare]="intrebari[index - 1]" (nextQ)="next($event)">
-    </app-intrebare>
+    <app-question [question]="questions[index - 1]" (nextQ)="next($event)">
+    </app-question>
   </div>
-  <app-rezultate *ngIf="finish" [raspunsuri]="raspunsuri"></app-rezultate>
+  <app-results *ngIf="finish" [answers]="answers"></app-results>
 </div>

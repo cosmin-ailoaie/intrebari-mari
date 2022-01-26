@@ -6,26 +6,25 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.scss'],
 })
 export class AppComponent {
-  title = 'intrebari-mari';
+  title = 'questions-mari';
   finish: boolean = false;
   progress: number = 0;
   maxPoints = 100;
   index: number = 1;
-  intrebari: any;
+  questions: any;
   maxPointsByQ: number = 0;
-  raspunsuri: Set<any> = new Set();
+  answers: Set<any> = new Set();
   processedFile(listOfQ: any) {
-    // console.log($file);
-    this.intrebari = listOfQ;
+    this.questions = listOfQ;
   }
 
   next(rasp:any) {
-    this.raspunsuri.add(rasp);
-    if (this.index === this.intrebari.length) {
+    this.answers.add(rasp);
+    if (this.index === this.questions.length) {
       this.finish = true;
-      this.raspunsuri = new Set(Array.from(this.raspunsuri).sort((a,b) => a.id - b.id));
+      this.answers = new Set(Array.from(this.answers).sort((a,b) => a.id - b.id));
     }
-    this.progress = (this.maxPoints / this.intrebari.length) * this.index;
+    this.progress = (this.maxPoints / this.questions.length) * this.index;
     this.index = this.index + 1;
   }
 

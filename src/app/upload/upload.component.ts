@@ -66,8 +66,7 @@ export class UploadComponent implements OnInit {
   }
 
   processTheFileArray(processing: any, history: boolean = false) {
-    console.log(processing);
-
+  
     this.processedFile = processing.map((q: any, index: number) => {
 
       let list = null;
@@ -76,13 +75,13 @@ export class UploadComponent implements OnInit {
       } else {
         list = q.split('\r\n');
 
-        const corecte = list.filter((q: string) => q[0] === '=');
-        const gresite = list.filter((q: string) => q[0] === '-');
+        const right = list.filter((q: string) => q[0] === '=');
+        const wrong = list.filter((q: string) => q[0] === '-');
         return {
           id: index,
           q: list[0],
-          corecte,
-          gresite,
+          right,
+          wrong,
         };
       }
     });
@@ -106,7 +105,7 @@ export class UploadComponent implements OnInit {
     let isValid = true;
 
     this.processedFile.some((q: any) => {
-      if (q.q.length === 0 || q.corecte.length === 0) {
+      if (q.q.length === 0 || q.right.length === 0) {
         isValid = false;
       }
     });

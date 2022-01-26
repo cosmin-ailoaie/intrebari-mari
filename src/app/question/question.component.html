@@ -4,13 +4,12 @@
     <ul class="list-group">
       <li
         class="list-group-item"
-        [ngClass]="{ 'selected': checked.has(rasp)}"
-        (click)="clicked(rasp)"
-        *ngFor="let rasp of processed?.rasp"
+        [ngClass]="{ 'selected': checked.has(ans)}"
+        (click)="clicked(ans)"
+        *ngFor="let ans of processed?.ans"
       >
-        {{ rasp.substring(1) }}
-        <span [ngClass]="{'corect':check && rasp[0]==='=', 'gresit':check && rasp[0]==='-' }"></span>
-        <!-- <span [ngClass]="{'corect': checked.has(rasp) && check && rasp[0]==='=', 'gresit': checked.has(rasp) && check && rasp[0]==='-' }"></span> -->
+        {{ ans.substring(1) }}
+        <span [ngClass]="{'right':check && ans[0]==='=', 'wrong':check && ans[0]==='-' }"></span>
       </li>
     </ul>
   </div>

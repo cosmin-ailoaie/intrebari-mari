@@ -20,16 +20,16 @@ describe('AppComponent', () => {
     expect(app).toBeTruthy();
   });
 
-  it(`should have as title 'intrebari-mari'`, () => {
+  it(`should have as title 'questions-mari'`, () => {
     const fixture = TestBed.createComponent(AppComponent);
     const app = fixture.componentInstance;
-    expect(app.title).toEqual('intrebari-mari');
+    expect(app.title).toEqual('questions-mari');
   });
 
   it('should render title', () => {
     const fixture = TestBed.createComponent(AppComponent);
     fixture.detectChanges();
     const compiled = fixture.nativeElement as HTMLElement;
-    expect(compiled.querySelector('.content span')?.textContent).toContain('intrebari-mari app is running!');
+    expect(compiled.querySelector('.content span')?.textContent).toContain('questions-mari app is running!');
   });
 });

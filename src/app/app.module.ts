@@ -3,17 +3,17 @@ import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { IntrebareComponent } from './intrebare/intrebare.component';
+import { QuestionComponent } from './question/question.component';
 import { UploadComponent } from './upload/upload.component';
-import { RezultateComponent } from './rezultate/rezultate.component';
+import { ResultsComponent } from './results/results.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
   declarations: [
     AppComponent,
-    IntrebareComponent,
+    QuestionComponent,
     UploadComponent,
-    RezultateComponent
+    ResultsComponent
   ],
   imports: [
     BrowserModule,

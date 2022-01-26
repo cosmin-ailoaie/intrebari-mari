@@ -2,12 +2,12 @@ import { Component, Input, OnChanges, OnInit } from '@angular/core';
 // import * as g from 'google';
 declare const google: any;
 @Component({
-  selector: 'app-rezultate',
-  templateUrl: './rezultate.component.html',
-  styleUrls: ['./rezultate.component.scss'],
+  selector: 'app-results',
+  templateUrl: './results.component.html',
+  styleUrls: ['./results.component.scss'],
 })
-export class RezultateComponent implements OnInit {
-@Input() raspunsuri:any;
+export class ResultsComponent implements OnInit {
+@Input() answers:any;
 public isCollapsedG = true;
 public isCollapsedR = false;
   constructor() {}
