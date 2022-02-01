@@ -17,7 +17,7 @@
     <button class="btn btn-primary" (click)="check = true" [disabled]="!checked.size">
       Check
     </button>
-    <button class="btn btn-primary" [disabled]="!checked.size" (click)="next()">
+    <button class="btn btn-primary" [disabled]="crazy?false:!checked.size" (click)="next()">
       Next
     </button>
   </div>

@@ -15,6 +15,7 @@ import {
 export class QuestionComponent implements OnChanges {
   @Input() question: any;
   @Input() output: boolean = false;
+  @Input() crazy: boolean = false;
   @Output() nextQ = new EventEmitter();
 
   check:boolean = false;
@@ -26,8 +27,8 @@ export class QuestionComponent implements OnChanges {
 
   constructor() {}
 
-  ngOnChanges(): void {
-    if (this.question) {
+  ngOnChanges(changes:any): void {
+    if (changes.question && this.question) {
       this.checked.clear();
       this.processed['title'] = this.question.q;
       if(this.output){

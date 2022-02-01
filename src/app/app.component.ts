@@ -11,6 +11,7 @@ export class AppComponent {
   progress: number = 0;
   maxPoints = 100;
   index: number = 1;
+  crazy:boolean = false;
   questions: any;
   maxPointsByQ: number = 0;
   answers: Set<any> = new Set();
@@ -27,7 +28,9 @@ export class AppComponent {
     this.progress = (this.maxPoints / this.questions.length) * this.index;
     this.index = this.index + 1;
   }
-
+  changeCrazy(){
+    this.crazy = !this.crazy;
+  } 
   reset(){
     window.location.reload();
   }

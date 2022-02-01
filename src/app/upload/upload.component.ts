@@ -105,7 +105,6 @@ export class UploadComponent implements OnInit {
     let isValid = true;
 
     this.processedFile.some((q: any) => {
-      // if (q.q.length === 0 || q.right.length === 0) {
       if (q.q.length === 0 && (q.right.length || q.wrong.length)) {
         isValid = false;
       }
