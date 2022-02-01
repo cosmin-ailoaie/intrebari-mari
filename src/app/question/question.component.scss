@@ -6,6 +6,20 @@
   border: 1px solid green;
   position: relative;
 }
+img {
+  width: 100%;
+  &.title-image {
+    width: 50%;
+  }
+  &.option-image {
+    width: 200px;
+  }
+  cursor: pointer;
+}
+.image {
+  display: flex;
+  justify-content: center;
+}
 span.right {
   position: absolute;
   right: -10px;
@@ -23,4 +37,16 @@ span.wrong {
   content: url("https://img.icons8.com/fluency/48/000000/multiply.png");
   width: 20px;
   height: 20px;
+}
+.list-group {
+  .list-group-item {
+    display: flex;
+    justify-content: space-between;
+    span.ans {
+      width: 100%;
+    }
+    img {
+      width: 25px;
+    }
+  }
 }

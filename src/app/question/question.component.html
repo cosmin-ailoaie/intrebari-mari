@@ -1,24 +1,67 @@
 <div class="card" *ngIf="processed">
   <div class="card-body">
     <h5 class="card-title">{{ processed?.title }}</h5>
+    <div class="image">
+      <img
+        [src]="processed?.link"
+        class="title-image"
+        (click)="open(content, processed.title)"
+      />
+    </div>
     <ul class="list-group">
       <li
         class="list-group-item"
-        [ngClass]="{ 'selected': checked.has(ans)}"
-        (click)="clicked(ans)"
+        [ngClass]="{ selected: checked.has(ans) }"
         *ngFor="let ans of processed?.ans"
       >
-        {{ ans.substring(1) }}
-        <span [ngClass]="{'right':check && ans[0]==='=', 'wrong':check && ans[0]==='-' }"></span>
+        <span class="ans" (click)="clicked(ans)">
+          {{ ans?.ans.substring(1) }}
+        </span>
+        <span
+          [ngClass]="{
+            right: check && ans.ans[0] === '=',
+            wrong: check && ans.ans[0] === '-'
+          }"
+        ></span>
+        <img
+          [src]="ans.link"
+          alt=""
+          *ngIf="ans?.link"
+          (click)="open(content, ans.ans.substring(1))"
+        />
       </li>
     </ul>
   </div>
   <div class="d-flex justify-content-between" *ngIf="!output">
-    <button class="btn btn-primary" (click)="check = true" [disabled]="!checked.size">
+    <button
+      class="btn btn-primary"
+      (click)="check = true"
+      [disabled]="!checked.size"
+    >
       Check
     </button>
-    <button class="btn btn-primary" [disabled]="crazy?false:!checked.size" (click)="next()">
+    <button
+      class="btn btn-primary"
+      [disabled]="crazy ? false : !checked.size"
+      (click)="next()"
+    >
       Next
     </button>
   </div>
 </div>
+<ng-template #content let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">{{ imgTxt }}</h4>
+    <button
+      type="button"
+      class="close"
+      aria-label="Close"
+      (click)="modal.dismiss('Cross click')"
+    >
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <img [src]="processed.link" alt="quiz-image" />
+  </div>
+</ng-template>

@@ -1,5 +1,11 @@
 import { stringify } from '@angular/compiler/src/util';
-import { Component, EventEmitter, OnInit, Output, PACKAGE_ROOT_URL } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  OnInit,
+  Output,
+  PACKAGE_ROOT_URL,
+} from '@angular/core';
 
 @Component({
   selector: 'app-upload',
@@ -17,7 +23,7 @@ export class UploadComponent implements OnInit {
   nrOfQ: any;
   locals: any;
 
-  constructor() { }
+  constructor() {}
 
   ngOnInit(): void {
     this.checkHistory();
@@ -26,17 +32,14 @@ export class UploadComponent implements OnInit {
   checkHistory() {
     const l = localStorage.getItem('history');
     if (l?.length) {
-
       this.locals = JSON.parse(l);
       if (this.locals.length) {
         this.hasLocalStorage = true;
-      }
-      else {
+      } else {
         this.hasLocalStorage = false;
         this.locals = [];
       }
-    }
-    else {
+    } else {
       this.hasLocalStorage = false;
       this.locals = [];
     }
@@ -58,17 +61,23 @@ export class UploadComponent implements OnInit {
         const processing = result.split('\r\n\r\n').filter((p) => p.trim());
         this.processTheFileArray(processing);
         if (!this.error) {
-          const history = [...this.locals ?? [], { name: theFile.name, file: this.processedFile, size: theFile.size, nrOfQ: this.nrOfQ }];
-          localStorage.setItem('history', JSON.stringify(history))
+          const history = [
+            ...(this.locals ?? []),
+            {
+              name: theFile.name,
+              file: this.processedFile,
+              size: theFile.size,
+              nrOfQ: this.nrOfQ,
+            },
+          ];
+          localStorage.setItem('history', JSON.stringify(history));
         }
       }
     };
   }
 
   processTheFileArray(processing: any, history: boolean = false) {
-  
     this.processedFile = processing.map((q: any, index: number) => {
-
       let list = null;
       if (history) {
         return q;
@@ -77,11 +86,19 @@ export class UploadComponent implements OnInit {
 
         const right = list.filter((q: string) => q[0] === '=');
         const wrong = list.filter((q: string) => q[0] === '-');
+        const question = list[0].split('!!');
         return {
           id: index,
-          q: list[0],
-          right,
-          wrong,
+          q: question[0],
+          link: this.handleLink(question[1]),
+          right: right.map((q: string) => {
+            const s = q.split('!!');
+            return { ans: s[0], link: this.handleLink(s[1]) };
+          }),
+          wrong: wrong.map((q: string) => {
+            const s = q.split('!!');
+            return { ans: s[0], link: this.handleLink(s[1]) };
+          }),
         };
       }
     });
@@ -100,7 +117,15 @@ export class UploadComponent implements OnInit {
     localStorage.clear();
     this.checkHistory();
   }
-
+  handleLink(q: any) {
+    if (q === undefined || q === null) {
+      return undefined;
+    }
+    if (q.indexOf('http') === 0) {
+      return q;
+    }
+    return undefined;
+  }
   testFile(): boolean {
     let isValid = true;
 

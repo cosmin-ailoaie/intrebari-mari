@@ -6,6 +6,7 @@ import {
   EventEmitter,
   OnChanges,
 } from '@angular/core';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-question',
@@ -17,28 +18,48 @@ export class QuestionComponent implements OnChanges {
   @Input() output: boolean = false;
   @Input() crazy: boolean = false;
   @Output() nextQ = new EventEmitter();
-
-  check:boolean = false;
+  imgTxt: string = '';
+  check: boolean = false;
   processed: any = {
     title: '',
     rasp: [],
   };
   checked: Set<string> = new Set();
 
-  constructor() {}
+  constructor(private modalService: NgbModal) {}
 
-  ngOnChanges(changes:any): void {
+  open(content: any, txt: string) {
+    this.imgTxt = txt;
+    this.modalService
+      .open(content, {
+        ariaLabelledBy: 'modal-basic-title',
+        centered: true,
+        size: 'xl',
+        animation: true,
+      })
+      .result.then(
+        (result) => {
+          this.imgTxt = '';
+        },
+        (reason) => {
+          this.imgTxt = '';
+        }
+      );
+  }
+
+  ngOnChanges(changes: any): void {
     if (changes.question && this.question) {
       this.checked.clear();
       this.processed['title'] = this.question.q;
-      if(this.output){
+      this.processed['link'] = this.question?.link ?? null;
+      if (this.output) {
         this.check = true;
-        this.checked = new Set(this.question.answers)
+        this.checked = new Set(this.question.answers);
         this.processed['ans'] = [
           ...this.question.right,
           ...this.question.wrong,
         ];
-      }else{
+      } else {
         this.processed['ans'] = this.shuffle([
           ...this.question.right,
           ...this.question.wrong,
@@ -64,7 +85,7 @@ export class QuestionComponent implements OnChanges {
   }
 
   clicked(value: string) {
-    if(!this.check){
+    if (!this.check) {
       if (this.checked.has(value)) {
         this.checked.delete(value);
       } else {
@@ -75,6 +96,6 @@ export class QuestionComponent implements OnChanges {
 
   next() {
     this.check = false;
-    this.nextQ.emit({...this.question,answers:this.checked});
+    this.nextQ.emit({ ...this.question, answers: this.checked });
   }
 }
