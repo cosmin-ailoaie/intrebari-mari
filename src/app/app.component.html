@@ -1,10 +1,16 @@
 <div class="container my-5">
+  <button class="btn btn-primary" (click)="testVlad()">TestVlad</button>
   <div class="topbar">
     <div class="d-flex justify-content-between">
       <button class="btn btn-danger" (click)="reset()">Reset</button>
       <div class="form-group" *ngIf="!(questions?.length > 0)">
         <div class="form-check">
-          <input class="form-check-input" type="checkbox" id="gridCheck" [(ngModel)]="crazy">
+          <input
+            class="form-check-input"
+            type="checkbox"
+            id="gridCheck"
+            [(ngModel)]="crazy"
+          />
           <label class="form-check-label" for="gridCheck">
             Prof. Nebun? (Mihasan)
           </label>
@@ -26,7 +32,11 @@
         [showValue]="true"
       ></ngb-progressbar>
     </p>
-    <app-question [crazy]="crazy" [question]="questions[index - 1]" (nextQ)="next($event)">
+    <app-question
+      [crazy]="crazy"
+      [question]="questions[index - 1]"
+      (nextQ)="next($event)"
+    >
     </app-question>
   </div>
   <app-results *ngIf="finish" [answers]="answers"></app-results>

@@ -1,3 +1,4 @@
+import { ServiceService } from './service.service';
 import { Component } from '@angular/core';
 
 @Component({
@@ -11,27 +12,35 @@ export class AppComponent {
   progress: number = 0;
   maxPoints = 100;
   index: number = 1;
-  crazy:boolean = false;
+  crazy: boolean = false;
   questions: any;
   maxPointsByQ: number = 0;
   answers: Set<any> = new Set();
+  constructor(private serviceService: ServiceService) {}
   processedFile(listOfQ: any) {
     this.questions = listOfQ;
   }
 
-  next(rasp:any) {
+  next(rasp: any) {
     this.answers.add(rasp);
     if (this.index === this.questions.length) {
       this.finish = true;
-      this.answers = new Set(Array.from(this.answers).sort((a,b) => a.id - b.id));
+      this.answers = new Set(
+        Array.from(this.answers).sort((a, b) => a.id - b.id)
+      );
     }
     this.progress = (this.maxPoints / this.questions.length) * this.index;
     this.index = this.index + 1;
   }
-  changeCrazy(){
+  changeCrazy() {
     this.crazy = !this.crazy;
-  } 
-  reset(){
+  }
+  reset() {
     window.location.reload();
+  }
+  testVlad() {
+    this.serviceService.test().subscribe((t) => {
+      console.log(t);
+    });
   }
 }
