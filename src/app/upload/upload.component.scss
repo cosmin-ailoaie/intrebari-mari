@@ -1,5 +1,10 @@
-.lista{
-    li{
+.lista {
+    li {
         cursor: pointer;
+        margin: 0.25rem 0;
+
+        ol li:hover {
+            font-weight: 500;
+        }
     }
 }

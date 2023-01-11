@@ -8,6 +8,7 @@ import { ResultsComponent } from './results/results.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
+import { GraphAndScoreComponent } from './graph-and-score/graph-and-score.component';
 
 @NgModule({
   declarations: [
@@ -15,6 +16,7 @@ import { HttpClientModule } from '@angular/common/http';
     QuestionComponent,
     UploadComponent,
     ResultsComponent,
+    GraphAndScoreComponent,
   ],
   imports: [
     BrowserModule,

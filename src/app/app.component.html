@@ -1,16 +1,10 @@
 <div class="container my-5">
-  <button class="btn btn-primary" (click)="testVlad()">TestVlad</button>
   <div class="topbar">
     <div class="d-flex justify-content-between">
-      <button class="btn btn-danger" (click)="reset()">Reset</button>
+      <button class="btn btn-danger" (click)="reset()">Home</button>
       <div class="form-group" *ngIf="!(questions?.length > 0)">
         <div class="form-check">
-          <input
-            class="form-check-input"
-            type="checkbox"
-            id="gridCheck"
-            [(ngModel)]="crazy"
-          />
+          <input class="form-check-input" type="checkbox" id="gridCheck" [(ngModel)]="isMultipleCorrectEnabled" />
           <label class="form-check-label" for="gridCheck">
             Prof. Nebun? (Mihasan)
           </label>
@@ -20,24 +14,17 @@
   </div>
   <div class="upload" *ngIf="!(questions?.length > 0)">
     <h1>Questions mixer:</h1>
-    <app-upload (testIt)="processedFile($event)"></app-upload>
+    <app-upload (testIt)="processedFile($event)" (resultsPlease)="showResults($event)"></app-upload>
   </div>
-  <div class="questions" *ngIf="!finish && questions?.length > 0">
+  <div class="questions" *ngIf="!isTestFinished && questions?.length > 0">
     <p>
       <span>Progress: {{ index }} out of {{ questions.length }}</span>
-      <ngb-progressbar
-        type="success"
-        textType="blue"
-        [value]="progress"
-        [showValue]="true"
-      ></ngb-progressbar>
+      <ngb-progressbar type="success" textType="blue" [value]="progress" [showValue]="true"></ngb-progressbar>
     </p>
-    <app-question
-      [crazy]="crazy"
-      [question]="questions[index - 1]"
-      (nextQ)="next($event)"
-    >
+    <app-question [isMultipleCorrectEnabled]="isMultipleCorrectEnabled" [question]="questions[index - 1]"
+      (nextQ)="next($event)">
     </app-question>
   </div>
-  <app-results *ngIf="finish" [answers]="answers"></app-results>
+  <app-results *ngIf="isTestFinished" [answers]="answersArray" [fileName]="fileName" [doNotSave]="doNotSave">
+  </app-results>
 </div>

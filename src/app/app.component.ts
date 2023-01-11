@@ -1,4 +1,3 @@
-import { ServiceService } from './service.service';
 import { Component } from '@angular/core';
 
 @Component({
@@ -7,40 +6,49 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.scss'],
 })
 export class AppComponent {
-  title = 'questions-mari';
-  finish: boolean = false;
+  title: string = 'questions-mari';
+  fileName: string = 'questions-mari';
+  isTestFinished: boolean = false;
+  doNotSave: boolean = false;
   progress: number = 0;
   maxPoints = 100;
   index: number = 1;
-  crazy: boolean = false;
+  isMultipleCorrectEnabled: boolean = false;
   questions: any;
   maxPointsByQ: number = 0;
   answers: Set<any> = new Set();
-  constructor(private serviceService: ServiceService) {}
-  processedFile(listOfQ: any) {
-    this.questions = listOfQ;
+  answersArray: any[] = [];
+
+  constructor() { }
+
+  processedFile(suffled: any) {
+    this.questions = suffled.suffledQuestions;
+    this.fileName = suffled.fileName
   }
 
   next(rasp: any) {
     this.answers.add(rasp);
+
     if (this.index === this.questions.length) {
-      this.finish = true;
-      this.answers = new Set(
-        Array.from(this.answers).sort((a, b) => a.id - b.id)
-      );
+      this.isTestFinished = true;
+      this.answersArray = Array.from(this.answers).sort((a, b) => a.id - b.id);
     }
     this.progress = (this.maxPoints / this.questions.length) * this.index;
     this.index = this.index + 1;
   }
-  changeCrazy() {
-    this.crazy = !this.crazy;
+
+  changeisMultipleCorrectEnabled() {
+    this.isMultipleCorrectEnabled = !this.isMultipleCorrectEnabled;
   }
+
+  showResults(event: any) {
+    this.isTestFinished = true;
+    this.fileName = event.name;
+    this.answersArray = Array.from(event.answers).sort((a: any, b: any) => a.id - b.id);
+    this.doNotSave = true;
+  }
+
   reset() {
     window.location.reload();
-  }
-  testVlad() {
-    this.serviceService.test().subscribe((t) => {
-      console.log(t);
-    });
   }
 }

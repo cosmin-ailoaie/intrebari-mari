@@ -15,18 +15,19 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 })
 export class QuestionComponent implements OnChanges {
   @Input() question: any;
-  @Input() output: boolean = false;
-  @Input() crazy: boolean = false;
+  @Input() isTestFinised: boolean = false;
+  @Input() isMultipleCorrectEnabled: boolean = false;
+
   @Output() nextQ = new EventEmitter();
   imgTxt: string = '';
-  check: boolean = false;
+  verifyAnswer: boolean = false;
   processed: any = {
     title: '',
     rasp: [],
   };
-  checked: Set<string> = new Set();
+  userAnswers: Set<string> = new Set();
 
-  constructor(private modalService: NgbModal) {}
+  constructor(private modalService: NgbModal) { }
 
   open(content: any, txt: string) {
     this.imgTxt = txt;
@@ -49,12 +50,12 @@ export class QuestionComponent implements OnChanges {
 
   ngOnChanges(changes: any): void {
     if (changes.question && this.question) {
-      this.checked.clear();
+      this.userAnswers.clear();
       this.processed['title'] = this.question.q;
       this.processed['link'] = this.question?.link ?? null;
-      if (this.output) {
-        this.check = true;
-        this.checked = new Set(this.question.answers);
+      if (this.isTestFinised) {
+        this.verifyAnswer = true;
+        this.userAnswers = new Set(this.question.answers);
         this.processed['ans'] = [
           ...this.question.right,
           ...this.question.wrong,
@@ -84,18 +85,22 @@ export class QuestionComponent implements OnChanges {
     return array;
   }
 
-  clicked(value: string) {
-    if (!this.check) {
-      if (this.checked.has(value)) {
-        this.checked.delete(value);
+  userSelection(value: string) {
+    if (!this.verifyAnswer) {
+      if (this.userAnswers.has(value)) {
+        this.userAnswers.delete(value);
       } else {
-        this.checked.add(value);
+        this.userAnswers.add(value);
       }
     }
   }
 
   next() {
-    this.check = false;
-    this.nextQ.emit({ ...this.question, answers: this.checked });
+    this.verifyAnswer = false;
+    this.nextQ.emit({ ...this.question, userAnswers: Array.from(this.userAnswers) });
+  }
+
+  test(test: any[], ans: any) {
+    return test.map((t: any) => t.ans).includes(ans.ans);
   }
 }

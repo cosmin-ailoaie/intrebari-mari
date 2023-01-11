@@ -2,49 +2,27 @@
   <div class="card-body">
     <h5 class="card-title">{{ processed?.title }}</h5>
     <div class="image">
-      <img
-        [src]="processed?.link"
-        class="title-image"
-        (click)="open(content, processed.title)"
-      />
+      <img [src]="processed?.link" class="title-image" (click)="open(content, processed.title)" />
     </div>
-    <ul class="list-group">
-      <li
-        class="list-group-item"
-        [ngClass]="{ selected: checked.has(ans) }"
-        *ngFor="let ans of processed?.ans"
-      >
-        <span class="ans" (click)="clicked(ans)">
+    <ul class="list-group" [attr.aria-disabled]="isTestFinised?true:undefined">
+      <li class="list-group-item" (click)="userSelection(ans)" [ngClass]="{ selected: isTestFinised ? test(question.userAnswers,ans)
+       : userAnswers.has(ans) }" *ngFor="let ans of processed?.ans">
+        <span class="ans">
           {{ ans?.ans.substring(1) }}
         </span>
-        <span
-          [ngClass]="{
-            right: check && ans.ans[0] === '=',
-            wrong: check && ans.ans[0] === '-'
-          }"
-        ></span>
-        <img
-          [src]="ans.link"
-          alt=""
-          *ngIf="ans?.link"
-          (click)="open(content, ans.ans.substring(1))"
-        />
+        <span [ngClass]="{
+            right: verifyAnswer && ans.ans[0] === '=',
+            wrong: verifyAnswer && ans.ans[0] === '-'
+          }"></span>
+        <img [src]="ans.link" alt="" *ngIf="ans?.link" (click)="open(content, ans.ans.substring(1))" />
       </li>
     </ul>
   </div>
-  <div class="d-flex justify-content-between" *ngIf="!output">
-    <button
-      class="btn btn-primary"
-      (click)="check = true"
-      [disabled]="!checked.size"
-    >
-      Check
+  <div class="d-flex justify-content-between action-btns" *ngIf="!isTestFinised">
+    <button class="btn btn-primary" (click)="verifyAnswer = true" [disabled]="!userAnswers.size">
+      Check Answer
     </button>
-    <button
-      class="btn btn-primary"
-      [disabled]="crazy ? false : !checked.size"
-      (click)="next()"
-    >
+    <button class="btn btn-primary" [disabled]="isMultipleCorrectEnabled ? false : !userAnswers.size" (click)="next()">
       Next
     </button>
   </div>
@@ -52,12 +30,7 @@
 <ng-template #content let-modal>
   <div class="modal-header">
     <h4 class="modal-title" id="modal-basic-title">{{ imgTxt }}</h4>
-    <button
-      type="button"
-      class="close"
-      aria-label="Close"
-      (click)="modal.dismiss('Cross click')"
-    >
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
       <span aria-hidden="true">&times;</span>
     </button>
   </div>

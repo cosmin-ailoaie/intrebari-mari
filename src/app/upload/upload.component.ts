@@ -1,10 +1,8 @@
-import { stringify } from '@angular/compiler/src/util';
 import {
   Component,
   EventEmitter,
   OnInit,
   Output,
-  PACKAGE_ROOT_URL,
 } from '@angular/core';
 
 @Component({
@@ -14,25 +12,32 @@ import {
 })
 export class UploadComponent implements OnInit {
   @Output() testIt = new EventEmitter();
+  @Output() resultsPlease = new EventEmitter();
 
   processedFile: any[] = [];
   done: boolean = false;
   uploaded: boolean = false;
   error: boolean = false;
   hasLocalStorage: boolean = false;
+  selectedFilename: string = '';
+  localFinished: any;
   nrOfQ: any;
   locals: any;
 
-  constructor() {}
+  constructor() { }
 
   ngOnInit(): void {
     this.checkHistory();
   }
 
   checkHistory() {
-    const l = localStorage.getItem('history');
-    if (l?.length) {
-      this.locals = JSON.parse(l);
+    const localHistoryJSON: string = localStorage.getItem('history') ?? "[]";
+    const localFinishedJSON: string = localStorage.getItem('saveFinishedTests') ?? "{}";
+    if (localHistoryJSON?.length) {
+      this.localFinished = JSON.parse(localFinishedJSON);
+    }
+    if (localHistoryJSON?.length) {
+      this.locals = JSON.parse(localHistoryJSON);
       if (this.locals.length) {
         this.hasLocalStorage = true;
       } else {
@@ -45,14 +50,21 @@ export class UploadComponent implements OnInit {
     }
   }
 
-  handleHistoryInput(file: any[]) {
+  handleHistoryInput(name: string, questions: any[]) {
     this.uploaded = true;
-    this.processTheFileArray(file, true);
+    this.selectedFilename = name
+
+    this.processTheFileArray(questions, true);
+  }
+
+  handleShowResults(name: string, answers: any) {
+    this.resultsPlease.emit({ name, answers });
   }
 
   handleFileInput(files: any) {
     this.uploaded = true;
     const theFile = files.target?.files[0];
+    this.selectedFilename = theFile.name;
     const toTest = new FileReader();
     toTest.readAsText(theFile);
     toTest.onload = () => {
@@ -109,13 +121,15 @@ export class UploadComponent implements OnInit {
       this.error = true;
     }
   }
+
   test() {
-    this.testIt.emit(this.shuffle([...this.processedFile]));
+    this.testIt.emit({ suffledQuestions: this.shuffle([...this.processedFile]), fileName: this.selectedFilename });
   }
 
   clearHistory() {
     localStorage.clear();
     this.checkHistory();
+    window.location.reload();
   }
   handleLink(q: any) {
     if (q === undefined || q === null) {
